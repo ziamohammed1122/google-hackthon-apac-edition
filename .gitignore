@@ -1,0 +1,12 @@
+__pycache__/
+*.py[cod]
+*.db
+.env
+*.egg-info/
+dist/
+build/
+.venv/
+venv/
+cloudflared.exe
+tunnel_output.txt
+PUBLIC_URL.txt

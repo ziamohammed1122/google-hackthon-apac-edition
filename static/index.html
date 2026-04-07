@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Multi-Agent AI System Dashboard — Manage tasks, schedule, notes, and workflows with intelligent agents">
+    <title>AgentFlow — Multi-Agent AI System</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="bg-grid"></div>
+    <div class="bg-glow bg-glow-1"></div>
+    <div class="bg-glow bg-glow-2"></div>
+    <div class="bg-glow bg-glow-3"></div>
+
+    <!-- App Container -->
+    <div id="app" class="app-container">
+        <!-- Sidebar -->
+        <nav id="sidebar" class="sidebar">
+            <div class="sidebar-brand">
+                <div class="brand-icon">
+                    <svg viewBox="0 0 32 32" fill="none">
+                        <circle cx="16" cy="16" r="14" stroke="url(#grad)" stroke-width="2.5"/>
+                        <circle cx="16" cy="10" r="3" fill="url(#grad)"/>
+                        <circle cx="10" cy="20" r="2.5" fill="url(#grad)" opacity="0.7"/>
+                        <circle cx="22" cy="20" r="2.5" fill="url(#grad)" opacity="0.7"/>
+                        <line x1="16" y1="13" x2="10" y2="18" stroke="url(#grad)" stroke-width="1.5" opacity="0.5"/>
+                        <line x1="16" y1="13" x2="22" y2="18" stroke="url(#grad)" stroke-width="1.5" opacity="0.5"/>
+                        <defs>
+                            <linearGradient id="grad" x1="0" y1="0" x2="32" y2="32">
+                                <stop offset="0%" stop-color="#6366f1"/>
+                                <stop offset="100%" stop-color="#8b5cf6"/>
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                </div>
+                <span class="brand-text">AgentFlow</span>
+            </div>
+
+            <div class="sidebar-nav">
+                <button class="nav-item active" data-view="chat" id="nav-chat">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                    </svg>
+                    <span>AI Chat</span>
+                </button>
+                <button class="nav-item" data-view="tasks" id="nav-tasks">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M9 11l3 3L22 4"/>
+                        <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
+                    </svg>
+                    <span>Tasks</span>
+                </button>
+                <button class="nav-item" data-view="calendar" id="nav-calendar">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                        <line x1="16" y1="2" x2="16" y2="6"/>
+                        <line x1="8" y1="2" x2="8" y2="6"/>
+                        <line x1="3" y1="10" x2="21" y2="10"/>
+                    </svg>
+                    <span>Calendar</span>
+                </button>
+                <button class="nav-item" data-view="notes" id="nav-notes">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                        <polyline points="14 2 14 8 20 8"/>
+                        <line x1="16" y1="13" x2="8" y2="13"/>
+                        <line x1="16" y1="17" x2="8" y2="17"/>
+                    </svg>
+                    <span>Notes</span>
+                </button>
+                <button class="nav-item" data-view="workflows" id="nav-workflows">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="16 18 22 12 16 6"/>
+                        <polyline points="8 6 2 12 8 18"/>
+                    </svg>
+                    <span>Workflows</span>
+                </button>
+                <button class="nav-item" data-view="agents" id="nav-agents">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="3"/>
+                        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+                    </svg>
+                    <span>Agents</span>
+                </button>
+            </div>
+
+            <div class="sidebar-footer">
+                <div class="system-status" id="system-status">
+                    <div class="status-dot"></div>
+                    <span>System Online</span>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="top-header">
+                <div class="header-left">
+                    <h1 id="page-title" class="page-title">AI Chat</h1>
+                    <span id="page-subtitle" class="page-subtitle">Talk to your agents naturally</span>
+                </div>
+                <div class="header-right">
+                    <div class="stat-pills" id="stat-pills">
+                        <div class="stat-pill" id="stat-tasks">
+                            <span class="stat-count">0</span>
+                            <span class="stat-label">Tasks</span>
+                        </div>
+                        <div class="stat-pill" id="stat-events">
+                            <span class="stat-count">0</span>
+                            <span class="stat-label">Events</span>
+                        </div>
+                        <div class="stat-pill" id="stat-notes">
+                            <span class="stat-count">0</span>
+                            <span class="stat-label">Notes</span>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Views -->
+            <div class="content-area">
+
+                <!-- Chat View -->
+                <section id="view-chat" class="view active">
+                    <div class="chat-container">
+                        <div class="chat-messages" id="chat-messages">
+                            <div class="chat-welcome">
+                                <div class="welcome-icon">
+                                    <svg viewBox="0 0 48 48" fill="none">
+                                        <circle cx="24" cy="24" r="22" stroke="url(#wgrad)" stroke-width="2"/>
+                                        <circle cx="24" cy="18" r="5" fill="url(#wgrad)"/>
+                                        <circle cx="14" cy="32" r="4" fill="url(#wgrad)" opacity="0.7"/>
+                                        <circle cx="34" cy="32" r="4" fill="url(#wgrad)" opacity="0.7"/>
+                                        <line x1="24" y1="23" x2="14" y2="28" stroke="url(#wgrad)" stroke-width="2" opacity="0.5"/>
+                                        <line x1="24" y1="23" x2="34" y2="28" stroke="url(#wgrad)" stroke-width="2" opacity="0.5"/>
+                                        <defs>
+                                            <linearGradient id="wgrad" x1="0" y1="0" x2="48" y2="48">
+                                                <stop offset="0%" stop-color="#6366f1"/>
+                                                <stop offset="100%" stop-color="#a78bfa"/>
+                                            </linearGradient>
+                                        </defs>
+                                    </svg>
+                                </div>
+                                <h2>Hello! I'm AgentFlow</h2>
+                                <p>Your multi-agent AI assistant. I coordinate specialized agents to help you manage tasks, schedule events, take notes, and run workflows.</p>
+                                <div class="quick-actions">
+                                    <button class="quick-action" onclick="sendQuickAction('Show my tasks')">📋 Show tasks</button>
+                                    <button class="quick-action" onclick="sendQuickAction('Show my events')">📅 Show events</button>
+                                    <button class="quick-action" onclick="sendQuickAction('Create a task called Review project plan with high priority')">✅ Create task</button>
+                                    <button class="quick-action" onclick="sendQuickAction('Show workflow templates')">⚡ Workflows</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="chat-input-area">
+                            <div class="chat-input-container">
+                                <input type="text" id="chat-input" class="chat-input" placeholder="Type a message... e.g. 'Create a high priority task called Fix login bug'" autocomplete="off">
+                                <button id="chat-send" class="chat-send-btn" onclick="sendChatMessage()">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <line x1="22" y1="2" x2="11" y2="13"/>
+                                        <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Tasks View -->
+                <section id="view-tasks" class="view">
+                    <div class="view-toolbar">
+                        <div class="filter-group">
+                            <select id="task-status-filter" class="filter-select" onchange="loadTasks()">
+                                <option value="">All Status</option>
+                                <option value="pending">Pending</option>
+                                <option value="in_progress">In Progress</option>
+                                <option value="completed">Completed</option>
+                                <option value="cancelled">Cancelled</option>
+                            </select>
+                            <select id="task-priority-filter" class="filter-select" onchange="loadTasks()">
+                                <option value="">All Priority</option>
+                                <option value="critical">Critical</option>
+                                <option value="high">High</option>
+                                <option value="medium">Medium</option>
+                                <option value="low">Low</option>
+                            </select>
+                        </div>
+                        <button class="btn-primary" onclick="showCreateTaskModal()">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+                                <line x1="12" y1="5" x2="12" y2="19"/>
+                                <line x1="5" y1="12" x2="19" y2="12"/>
+                            </svg>
+                            New Task
+                        </button>
+                    </div>
+                    <div id="tasks-grid" class="cards-grid"></div>
+                </section>
+
+                <!-- Calendar View -->
+                <section id="view-calendar" class="view">
+                    <div class="view-toolbar">
+                        <div class="filter-group">
+                            <input type="date" id="event-date-filter" class="filter-input" onchange="loadEvents()">
+                        </div>
+                        <button class="btn-primary" onclick="showCreateEventModal()">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+                                <line x1="12" y1="5" x2="12" y2="19"/>
+                                <line x1="5" y1="12" x2="19" y2="12"/>
+                            </svg>
+                            New Event
+                        </button>
+                    </div>
+                    <div id="events-list" class="cards-grid"></div>
+                </section>
+
+                <!-- Notes View -->
+                <section id="view-notes" class="view">
+                    <div class="view-toolbar">
+                        <div class="filter-group">
+                            <select id="note-category-filter" class="filter-select" onchange="loadNotes()">
+                                <option value="">All Categories</option>
+                                <option value="general">General</option>
+                                <option value="meeting">Meeting</option>
+                                <option value="project">Project</option>
+                                <option value="idea">Idea</option>
+                                <option value="reference">Reference</option>
+                            </select>
+                            <input type="text" id="note-search" class="filter-input" placeholder="Search notes..." oninput="debounceSearch()">
+                        </div>
+                        <button class="btn-primary" onclick="showCreateNoteModal()">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+                                <line x1="12" y1="5" x2="12" y2="19"/>
+                                <line x1="5" y1="12" x2="19" y2="12"/>
+                            </svg>
+                            New Note
+                        </button>
+                    </div>
+                    <div id="notes-grid" class="cards-grid"></div>
+                </section>
+
+                <!-- Workflows View -->
+                <section id="view-workflows" class="view">
+                    <div class="view-toolbar">
+                        <div class="filter-group">
+                            <h3 style="margin:0;color:var(--text-primary)">Workflow Templates</h3>
+                        </div>
+                        <button class="btn-primary" onclick="showCreateWorkflowModal()">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+                                <line x1="12" y1="5" x2="12" y2="19"/>
+                                <line x1="5" y1="12" x2="19" y2="12"/>
+                            </svg>
+                            Custom Workflow
+                        </button>
+                    </div>
+                    <div id="workflow-templates" class="cards-grid"></div>
+                    <h3 style="margin:24px 0 16px;color:var(--text-primary)">My Workflows</h3>
+                    <div id="workflows-list" class="cards-grid"></div>
+                </section>
+
+                <!-- Agents View -->
+                <section id="view-agents" class="view">
+                    <div id="agents-grid" class="cards-grid"></div>
+                    <h3 style="margin:24px 0 16px;color:var(--text-primary)">Recent Agent Activity</h3>
+                    <div id="agent-logs" class="logs-container"></div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal Overlay -->
+    <div id="modal-overlay" class="modal-overlay" onclick="closeModal()">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <h3 id="modal-title"></h3>
+                <button class="modal-close" onclick="closeModal()">&times;</button>
+            </div>
+            <div id="modal-body" class="modal-body"></div>
+        </div>
+    </div>
+
+    <script src="/static/app.js"></script>
+</body>
+</html>

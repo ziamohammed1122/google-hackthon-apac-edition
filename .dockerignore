@@ -1,0 +1,14 @@
+__pycache__
+*.pyc
+*.pyo
+.git
+.gitignore
+*.db
+cloudflared.exe
+PUBLIC_URL.txt
+render.yaml
+deploy_tunnel.py
+start_tunnel.py
+README.md
+.dockerignore
+Dockerfile
